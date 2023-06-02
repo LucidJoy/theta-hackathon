@@ -8,7 +8,7 @@ import Successfully from "./Successfully";
 
 import CreateLendContext from "../../context/LendContext";
 
-const Withdraw = ({ offer }) => {
+const Withdraw = ({ offer, repay, insurance }) => {
   const { buyInsurance } = useContext(CreateLendContext);
 
   const [save, setSave] = useState(true);
@@ -22,6 +22,12 @@ const Withdraw = ({ offer }) => {
     setVisibleSuccessfully(true);
   };
 
+  useEffect(
+    () =>
+      console.log(`offer: ${offer}, repay: ${repay}, insurance: ${insurance}`),
+    []
+  );
+
   // useEffect(() => offer === true && setOffer(false), []);
 
   return (
@@ -30,7 +36,7 @@ const Withdraw = ({ offer }) => {
         <div className={styles.withdraw}>
           <div className={cn("h4", styles.title)}>
             {/* <Icon name='arrow-left' size='32' /> */}
-            {offer ? "Redeem" : "Insurance"}
+            {offer === true ? "Redeem" : repay === true ? "Repay" : "Insurance"}
           </div>
           <TextInput
             className={styles.field}

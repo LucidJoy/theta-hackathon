@@ -65,6 +65,7 @@ export const CreateLendProvider = ({ children }) => {
 
   const [offerId, setOfferId] = useState("");
   let [estAmt, setEstAmt] = useState("");
+  const [sentiment, setSentiment] = useState(-0.2);
 
   const demoItem = {
     escrowId: "0",
@@ -691,6 +692,8 @@ export const CreateLendProvider = ({ children }) => {
         setOfferId,
         estAmt,
         setEstAmt,
+        sentiment,
+        setSentiment,
       }}
     >
       {children}
