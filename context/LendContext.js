@@ -13,10 +13,7 @@ import { useRouter } from "next/router";
 
 const CreateLendContext = createContext({});
 
-// const gainxContractAddress = "0x513028401543099405cb47bC00788a05d99E91F2";
-// const gainxContractAddress = "0x9c88f79eA319B9770125E689F9aeDCE1C0992224"; // 0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84 (new)
-// const gainxContractAddress = "0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84"; // 0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84 (new)
-const gainxContractAddress = "0x6CFD7ebe4dA3C3eF58f3796214580eD7fAa9f242"; // Theta
+const gainxContractAddress = "0x5a81D56F710a86A5feB51cCcc3Edd366c87098BC"; // Theta
 // const gainxTokenContractAddress = "0xd4e6eC0202F1960dA896De13089FF0e4A07Db4E9";
 const tnt20ContractAddress = "0xEC6C1001a15c48D4Ea2C7CD7C45a1c5b6aD120E9";
 
@@ -69,6 +66,7 @@ export const CreateLendProvider = ({ children }) => {
 
   const [offerId, setOfferId] = useState("");
   let [estAmt, setEstAmt] = useState("");
+  const [sentiment, setSentiment] = useState(-0.2);
 
   const demoItem = {
     escrowId: "0",
@@ -143,7 +141,7 @@ export const CreateLendProvider = ({ children }) => {
   //   )();
   // }, [])
 
-  const getAllListings = async () => {
+  const getAllListings = async () => {  // here
     let results = [];
     let element;
     if (window.ethereum) {
@@ -179,6 +177,7 @@ export const CreateLendProvider = ({ children }) => {
           apy: Number(escrow.apy._hex),
           isInsuared: escrow.isInsuared,
           accepted: escrow.accepted,
+          completed: escrow.completed
         };
 
         results.push(element);
@@ -253,7 +252,7 @@ export const CreateLendProvider = ({ children }) => {
   //   })();
   // }, []);
 
-  const getLendedOffers = async () => {
+  const getLendedOffers = async () => {  // here
     let results = [];
     let element;
     let userAddress;
@@ -293,6 +292,7 @@ export const CreateLendProvider = ({ children }) => {
           apy: Number(offer.apy._hex),
           isInsuared: offer.isInsuared,
           accepted: offer.accepted,
+          completed: offer.completed
         };
 
         results.push(element);
@@ -311,7 +311,7 @@ export const CreateLendProvider = ({ children }) => {
     })();
   }, []);
 
-  const getBorrowOffers = async () => {
+  const getBorrowOffers = async () => { // here
     let results = [];
     let element;
     let userAddress;
@@ -350,6 +350,7 @@ export const CreateLendProvider = ({ children }) => {
           apy: Number(offer.apy._hex),
           isInsuared: offer.isInsuared,
           accepted: offer.accepted,
+          completed: offer.completed
         };
 
         results.push(element);
@@ -559,8 +560,10 @@ export const CreateLendProvider = ({ children }) => {
     }
   };
 
-  const repayAmount = async (_escrowId) => {
+  const repayAmount = async () => {
+    console.log("Repay fn called");
     let borrower;
+    let _escrowId = offerId;
     try {
       if (window.ethereum) {
         const web3Modal = new Web3Modal();
@@ -582,8 +585,18 @@ export const CreateLendProvider = ({ children }) => {
           borrower = accounts[0];
         }
 
+        const response = await contract.idToEscrow(offerId);
+        let lenderAddr = response.lender;
+        console.log("Lender: ", lenderAddr);
+
+        const res = await contract.lenderToRepayAmt(lenderAddr);
+        let amt = Number(res._hex).toString();
+        // amt = utils.parseEther(amt);
+        console.log("Lender address amt: ", Number(res._hex))
+
         const txRes = await contract._receiveRepayAmt(_escrowId, {
           gasLimit: 3000000,
+          value: amt
         });
 
         setIsLoading(true);
@@ -595,6 +608,7 @@ export const CreateLendProvider = ({ children }) => {
       }
     } catch (error) {
       alert("Error while repaying amount!");
+      console.log("Error repay: ", error);
     }
   };
 
@@ -753,6 +767,8 @@ export const CreateLendProvider = ({ children }) => {
         ended,
         setEnded,
         getIdToLendingStates,
+        sentiment,
+        setSentiment,
       }}
     >
       {children}

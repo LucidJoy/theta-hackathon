@@ -26,19 +26,6 @@ const AssetBalances = ({ overview, lender, borrower }) => {
 
   let items, statuses = [];
 
-  // const getStatus = async (items) => {
-  //   console.log("Get status was called.");
-  //   items.map(async (element, i) => {
-  //     const res = await getIdToLendingStates(element.escrowId);
-  //     statuses.push(res);
-  //   })
-  //   setStatus(statuses);
-  // }
-
-  // useEffect(() => {
-  //   console.log("Status from useEffect❤️❤️❤️❤️❤️❤️:", status);
-  // }, [])
-
   if (overview) {
     console.log("Overview dashboard");
     items = [...borrowerList, ...lenderList];
@@ -51,6 +38,7 @@ const AssetBalances = ({ overview, lender, borrower }) => {
 
   if (borrower) {
     console.log("Borrower dashboard");
+    items = borrowerList;
   }
 
   return (
@@ -118,7 +106,8 @@ const AssetBalances = ({ overview, lender, borrower }) => {
                   ended ? styles.ended : styles.ongoing
                 }`}
               >
-                {ended ? "Ended" : "Ongoing"}
+                {console.log("Completed status: ", x.completed)}
+                {x.completed ? "Ended" : "Ongoing"}
               </div>
             </div>
           </div>

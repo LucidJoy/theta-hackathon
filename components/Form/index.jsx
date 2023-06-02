@@ -14,13 +14,15 @@ const Form = ({ profile }) => {
     setMyNftForm,
     currentAccount,
     listNftToMarketplace,
-    estAmt
+    estAmt,
+    sentiment,
+    setSentiment,
   } = useContext(CreateLendContext);
 
   const handleListing = async () => {
     const response = await listNftToMarketplace(myNftForm);
-    console.log('Handle listing response: ', response);
-  }
+    console.log("Handle listing response: ", response);
+  };
 
   useEffect(() => console.log(myNftForm), [myNftForm]);
 
@@ -72,7 +74,7 @@ const Form = ({ profile }) => {
 
         <div className={styles.input}>
           <p className={styles.label}>Chain:</p>
-          <select
+          {/* <select
             name='chain'
             id='chain'
             style={{
@@ -91,7 +93,8 @@ const Form = ({ profile }) => {
             <option value=''>Select chain</option>
             <option value='fvm'>FVM Hyperspace</option>
             <option value='polygon'>Polygon Mumbai</option>
-          </select>
+          </select> */}
+          <p style={{ color: "white", fontSize: "15px" }}>Theta Network</p>
         </div>
 
         <div className={styles.input}>
@@ -104,13 +107,15 @@ const Form = ({ profile }) => {
 
         <div
           className={styles.input}
-          style={{
-            marginTop: "15px",
-            borderTop: "1px solid #4c5059",
-            borderBottom: "1px solid #4c5059",
-            padding: "8px 0px",
-            marginBottom: "15px",
-          }}
+          style={
+            {
+              // marginTop: "15px",
+              // borderTop: "1px solid #4c5059",
+              // borderBottom: "1px solid #4c5059",
+              // padding: "8px 0px",
+              // marginBottom: "15px",
+            }
+          }
         >
           <p className={styles.label}>Estimated Amount:</p>
           {/* <input
@@ -122,9 +127,20 @@ const Form = ({ profile }) => {
               }
             /> */}
           {profile ? (
-            <p>{myNftForm.tenure == '' ? '0' : estAmt}</p>
+            <p>{myNftForm.tenure == "" ? "0" : estAmt}</p>
           ) : (
             <p className={styles.data}>20</p>
+          )}
+        </div>
+
+        <div className={styles.input}>
+          <p className={styles.label}>Sentiment Analysis Score:</p>
+          {sentiment < 0 ? (
+            <p style={{ fontSize: "16px" }}>Bearish ({sentiment})</p>
+          ) : sentiment == 0 ? (
+            <p style={{ fontSize: "16px" }}>0</p>
+          ) : (
+            <p style={{ fontSize: "16px" }}>Bullish ({sentiment})</p>
           )}
         </div>
 
@@ -173,8 +189,8 @@ const Form = ({ profile }) => {
           style={{ width: "50%", textAlign: "center" }}
           onClick={async () => {
             let response = await handleListing();
-            console.log('Response to listing: ', response);
-            console.log('List clicked')
+            console.log("Response to listing: ", response);
+            console.log("List clicked");
           }}
         >
           List

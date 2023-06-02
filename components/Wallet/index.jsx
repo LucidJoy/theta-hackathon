@@ -1,5 +1,4 @@
 // ARV
-
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 // import { Link, Link } from "react-router-dom";
@@ -51,10 +50,21 @@ const Wallet = ({ className, children }) => {
   const [visibleTransfer, setVisibleTransfer] = useState(false);
   const [visibleMenu, setVisibleMenu] = useState(false);
   const [offer, setOffer] = useState(false);
+  // const [borrowingsPath, setBorrowingsPath] = useState(false);
+  const [repay, setRepay] = useState(false);
+  const [insurance, setInsurance] = useState(false);
 
   const activeItem = navigation.find((x) => router.pathname.includes(x.url));
 
   // useEffect(() => console.log("⛵️ ", router.pathname, activeItem.url), []);
+
+  // useEffect(() => {
+  //   router.pathname == "/borrowings"
+  //     ? setBorrowingsPath(true)
+  //     : setBorrowingsPath(false);
+
+  //   console.log("--> ", borrowingsPath);
+  // }, [router.pathname]);
 
   return (
     <>
@@ -113,18 +123,34 @@ const Wallet = ({ className, children }) => {
             >
               Deposit
             </Link> */}
+            {router.pathname === "/borrowings" ? (
+              <button
+                className={cn("button", styles.button)}
+                onClick={() => {
+                  setVisibleWithdraw(!visibleWithdraw);
+                  setRepay(true);
+                }}
+              >
+                Repay Offer
+              </button>
+            ) : (
+              <button
+                className={cn("button", styles.button)}
+                onClick={() => {
+                  setVisibleWithdraw(!visibleWithdraw);
+                  setOffer(true);
+                }}
+              >
+                Redeem Offer
+              </button>
+            )}
+
             <button
               className={cn("button", styles.button)}
               onClick={() => {
                 setVisibleWithdraw(!visibleWithdraw);
-                setOffer(true);
+                setInsurance(true);
               }}
-            >
-              Redeem Offer
-            </button>
-            <button
-              className={cn("button", styles.button)}
-              onClick={() => setVisibleWithdraw(!visibleWithdraw)}
             >
               Buy Insurance
             </button>
@@ -150,14 +176,52 @@ const Wallet = ({ className, children }) => {
         >
           <Withdraw offer={offer} />
         </Modal>
+      ) : repay ? (
+        <Modal
+          visible={visibleWithdraw}
+          onClose={() => {
+            setVisibleWithdraw(false);
+            setRepay(false);
+          }}
+        >
+          <Withdraw repay={repay} />
+        </Modal>
       ) : (
         <Modal
           visible={visibleWithdraw}
-          onClose={() => setVisibleWithdraw(false)}
+          onClose={() => {
+            setVisibleWithdraw(false);
+            setInsurance(false);
+          }}
         >
-          <Withdraw />
+          <Withdraw insurance={insurance} />
         </Modal>
       )}
+
+      {/* {offer && (
+        <Modal
+          visible={visibleWithdraw}
+          onClose={() => {
+            setVisibleWithdraw(false);
+            setOffer(false);
+          }}
+        >
+          <Withdraw offer={offer} />
+        </Modal>
+      )}
+
+      {repay && (
+        <Modal
+          visible={visibleWithdraw}
+          onClose={() => {
+            setVisibleWithdraw(false);
+            setRepay(false);
+          }}
+        >
+          <Withdraw repay={repay} />
+        </Modal>
+      )} */}
+
       {/* 
       <Modal
         visible={visibleWithdraw}

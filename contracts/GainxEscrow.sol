@@ -29,7 +29,7 @@ contract GainxEscrow is GainxInsurance, GainxFuture, GainxPool {
         
         _lockFutureApy(_escrowId, _apy); // Future for APY
         
-        Escrow memory newEscrow = Escrow(_escrowId, _startBlock, _endBlock, _nftAddress, _nftId, address(0), _borrower, _amount, _tenure, _apy, false, false);
+        Escrow memory newEscrow = Escrow(_escrowId, _startBlock, _nftAddress, _nftId, address(0), _borrower, _amount, _tenure, _apy, false, false, false);
         escrows.push(newEscrow);
         idToEscrow[_escrowId] = newEscrow;
 
@@ -73,6 +73,7 @@ contract GainxEscrow is GainxInsurance, GainxFuture, GainxPool {
     function _receiveRepayAmt(uint256 _escrowId) payable public {
         idToLendingStates[_escrowId].receivedRepayAmt = true;
         idToLendingStates[_escrowId].completed = true;
+        idToEscrow[_escrowId].completed = true;
 
         // send the NFT back to borrower
     }

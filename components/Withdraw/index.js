@@ -8,8 +8,8 @@ import Successfully from "./Successfully";
 
 import CreateLendContext from "../../context/LendContext";
 
-const Withdraw = ({ offer }) => {
-  const { buyInsurance, reedemAmount, setEnded } = useContext(CreateLendContext);
+const Withdraw = ({ offer, repay, insurance }) => {
+  const { buyInsurance, reedemAmount, setEnded, repayAmount } = useContext(CreateLendContext);
 
   const [save, setSave] = useState(true);
   const [visibleWithdraw, setVisibleWithdraw] = useState(true);
@@ -20,11 +20,12 @@ const Withdraw = ({ offer }) => {
     if (offer) {
       response = await reedemAmount();
       console.log("Response to redeem amt: ", response);
-
-      if (response) setEnded(true);
-    } else {
+    } else if (insurance) {
       response = await buyInsurance();
       console.log("Response to buy insurance: ", response);
+    } else if (repay) {
+      response = await repayAmount();
+      console.log("Response to repay amt: ", response);
     }
 
     setVisibleWithdraw(false);
@@ -36,6 +37,12 @@ const Withdraw = ({ offer }) => {
     }
   };
 
+  useEffect(
+    () =>
+      console.log(`offer: ${offer}, repay: ${repay}, insurance: ${insurance}`),
+    []
+  );
+
   // useEffect(() => offer === true && setOffer(false), []);
 
   return (
@@ -44,7 +51,7 @@ const Withdraw = ({ offer }) => {
         <div className={styles.withdraw}>
           <div className={cn("h4", styles.title)}>
             {/* <Icon name='arrow-left' size='32' /> */}
-            {offer ? "Redeem" : "Insurance"}
+            {offer === true ? "Redeem" : repay === true ? "Repay" : "Insurance"}
           </div>
           <TextInput
             className={styles.field}
