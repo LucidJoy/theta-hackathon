@@ -10,7 +10,7 @@ import Main from "./Main";
 // import Withdraw from "../Withdraw";
 import AssetBalances from "../WalletOverview/AssetBalances";
 
-const FiatAndSpot = () => {
+const FiatAndSpot = () => { // Borrowing
   const [visibleWithdraw, setVisibleWithdraw] = useState(false);
 
   return (

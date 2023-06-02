@@ -33,7 +33,7 @@ const Successfully = () => {
           </span>
         </div>
         <div className={styles.info}>
-          Your insurance was successfull !
+          Your transaction was successfull !
         </div>
         <div className={styles.list}>
           {items.map((x, index) => (

@@ -3,21 +3,6 @@
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "_tnt20TokenAddr",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "stateMutability": "payable",
-            "type": "fallback"
-        },
-        {
-            "inputs": [
-                {
                     "internalType": "uint256",
                     "name": "_escrowId",
                     "type": "uint256"
@@ -132,85 +117,6 @@
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "borrowersList",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "escrowId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "startBlock",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "endBlock",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "nftAddress",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "nftId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "lender",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "borrower",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "tenure",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "apy",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "isInsuared",
-                    "type": "bool"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "accepted",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
                     "name": "_buyer",
                     "type": "address"
                 },
@@ -244,33 +150,63 @@
             "type": "function"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "escrowToApy",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
+            "inputs": [],
+            "name": "receiveFunds",
+            "outputs": [],
+            "stateMutability": "payable",
             "type": "function"
         },
         {
             "inputs": [
                 {
+                    "internalType": "address",
+                    "name": "_receiver",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_amount",
+                    "type": "uint256"
+                }
+            ],
+            "name": "sendFunds",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_tnt20TokenAddr",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "stateMutability": "payable",
+            "type": "fallback"
+        },
+        {
+            "stateMutability": "payable",
+            "type": "receive"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
                 }
             ],
-            "name": "escrows",
+            "name": "borrowersList",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -280,11 +216,6 @@
                 {
                     "internalType": "uint256",
                     "name": "startBlock",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "endBlock",
                     "type": "uint256"
                 },
                 {
@@ -331,6 +262,104 @@
                     "internalType": "bool",
                     "name": "accepted",
                     "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "completed",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "escrows",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "escrowId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "startBlock",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "nftAddress",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "nftId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "lender",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "borrower",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tenure",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "apy",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "isInsuared",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "accepted",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "completed",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "escrowToApy",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -405,11 +434,6 @@
                             "type": "uint256"
                         },
                         {
-                            "internalType": "uint256",
-                            "name": "endBlock",
-                            "type": "uint256"
-                        },
-                        {
                             "internalType": "address",
                             "name": "nftAddress",
                             "type": "address"
@@ -452,6 +476,11 @@
                         {
                             "internalType": "bool",
                             "name": "accepted",
+                            "type": "bool"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "completed",
                             "type": "bool"
                         }
                     ],
@@ -480,11 +509,6 @@
                             "type": "uint256"
                         },
                         {
-                            "internalType": "uint256",
-                            "name": "endBlock",
-                            "type": "uint256"
-                        },
-                        {
                             "internalType": "address",
                             "name": "nftAddress",
                             "type": "address"
@@ -527,6 +551,11 @@
                         {
                             "internalType": "bool",
                             "name": "accepted",
+                            "type": "bool"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "completed",
                             "type": "bool"
                         }
                     ],
@@ -653,11 +682,6 @@
                             "type": "uint256"
                         },
                         {
-                            "internalType": "uint256",
-                            "name": "endBlock",
-                            "type": "uint256"
-                        },
-                        {
                             "internalType": "address",
                             "name": "nftAddress",
                             "type": "address"
@@ -700,6 +724,11 @@
                         {
                             "internalType": "bool",
                             "name": "accepted",
+                            "type": "bool"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "completed",
                             "type": "bool"
                         }
                     ],
@@ -745,11 +774,6 @@
                     "type": "uint256"
                 },
                 {
-                    "internalType": "uint256",
-                    "name": "endBlock",
-                    "type": "uint256"
-                },
-                {
                     "internalType": "address",
                     "name": "nftAddress",
                     "type": "address"
@@ -792,6 +816,11 @@
                 {
                     "internalType": "bool",
                     "name": "accepted",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "completed",
                     "type": "bool"
                 }
             ],
@@ -884,45 +913,6 @@
                     "type": "uint256"
                 }
             ],
-            "name": "insuranceToDeal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "insuranceId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "lendingId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "buyer",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "claimed",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
             "name": "insurances",
             "outputs": [
                 {
@@ -1001,17 +991,37 @@
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "lenderToRepayAmt",
-            "outputs": [
-                {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
+                }
+            ],
+            "name": "insuranceToDeal",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "insuranceId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "lendingId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "buyer",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "claimed",
+                    "type": "bool"
                 }
             ],
             "stateMutability": "view",
@@ -1040,11 +1050,6 @@
                 {
                     "internalType": "uint256",
                     "name": "startBlock",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "endBlock",
                     "type": "uint256"
                 },
                 {
@@ -1091,6 +1096,30 @@
                     "internalType": "bool",
                     "name": "accepted",
                     "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "completed",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "lenderToRepayAmt",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -1108,35 +1137,6 @@
             ],
             "stateMutability": "view",
             "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "receiveFunds",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_receiver",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_amount",
-                    "type": "uint256"
-                }
-            ],
-            "name": "sendFunds",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "stateMutability": "payable",
-            "type": "receive"
         }
     ]
 }

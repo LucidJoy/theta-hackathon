@@ -58,7 +58,7 @@ const Notification = ({ className, wide }: NotificationProps) => {
             />
           </div>
           <div className={styles.code}>
-            {!address ? "Connect Wallet" : formatWalletAddress(address, 5, 5)}
+            {!currentAccount ? "Connect Wallet" : formatWalletAddress(currentAccount, 5, 5)}
           </div>
         </button>
 
@@ -72,7 +72,7 @@ const Notification = ({ className, wide }: NotificationProps) => {
               <div className={styles.label}>Connected with Metamask</div>
               <div className={styles.line}>
                 <div className={styles.code}>
-                  {formatWalletAddress(address, 5, 5)}
+                  {formatWalletAddress(currentAccount, 5, 5)}
                 </div>
                 <button className={styles.copy} onClick={copyAddress}>
                   <Icon name='copy' size='20' />
