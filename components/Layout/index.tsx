@@ -30,7 +30,7 @@ const Layout = ({
 }: LayoutProps) => {
   const router = useRouter();
   // const title = getTitleFromRoute(router.pathname);
-  const title = "GainX";
+  const title = "ThetaGainX";
   // const description = getDescriptionFromRoute(router.pathname);
   // const image = getMetaImageFromRoute(router.pathname);
 
