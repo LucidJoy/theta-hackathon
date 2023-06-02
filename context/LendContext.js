@@ -20,6 +20,8 @@ const gainxContractAddress = "0x6CFD7ebe4dA3C3eF58f3796214580eD7fAa9f242"; // Th
 // const gainxTokenContractAddress = "0xd4e6eC0202F1960dA896De13089FF0e4A07Db4E9";
 const tnt20ContractAddress = "0xEC6C1001a15c48D4Ea2C7CD7C45a1c5b6aD120E9";
 
+// Gas-limit: 500000000
+
 const gainxAbi = gainx.abi;
 const gainxTokenAbi = gainxToken.abi;
 const tnt20TokenAbi = tnt20Token.abi;
@@ -29,6 +31,8 @@ let months = 3;
 export const CreateLendProvider = ({ children }) => {
   const route = useRouter();
   const [currentAccount, setCurrentAccount] = useState("");
+
+  const [ended, setEnded] = useState(true);
 
   const [wishlistForm, setWishlistForm] = useState({
     tenure: "",
@@ -75,6 +79,17 @@ export const CreateLendProvider = ({ children }) => {
     tenure: "4",
     isInsured: false,
   };
+
+  useEffect(() => {
+    (async () => {
+      if (ethereum.isConnected()) {
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
+        setCurrentAccount(accounts[0]);
+      }
+    })();
+  }, []);
 
   let offers = ["55.6064", "50.2044", "40.7826", "21.9151"];
   useEffect(() => {
@@ -407,7 +422,7 @@ export const CreateLendProvider = ({ children }) => {
           apy,
           {
             value: listingPrice,
-            gasLimit: 500000000,
+            gasLimit: 3000000,
           }
         );
 
@@ -472,7 +487,7 @@ export const CreateLendProvider = ({ children }) => {
 
         const txRes = await contract._acceptOffer(escrowId, _isInsuared, {
           value: txAmt, // '1.1 * 10^18'
-          gasLimit: 500000000,
+          gasLimit: 3000000,
         });
 
         setIsLoading(true);
@@ -528,7 +543,7 @@ export const CreateLendProvider = ({ children }) => {
 
         const txRes = await contract.buyInsurance(lender, txAmount, offerId, {
           value: amt, // '0.1'
-          gasLimit: 500000000,
+          gasLimit: 3000000,
         });
 
         setIsLoading(true);
@@ -568,7 +583,7 @@ export const CreateLendProvider = ({ children }) => {
         }
 
         const txRes = await contract._receiveRepayAmt(_escrowId, {
-          gasLimit: 500000000,
+          gasLimit: 3000000,
         });
 
         setIsLoading(true);
@@ -583,8 +598,10 @@ export const CreateLendProvider = ({ children }) => {
     }
   };
 
-  const reedemAmount = async (_escrowId) => {
+  const reedemAmount = async () => {
     let lender;
+    let _escrowId = offerId;
+    console.log("Offer Id: ", _escrowId);
     try {
       if (window.ethereum) {
         const web3Modal = new Web3Modal();
@@ -607,7 +624,7 @@ export const CreateLendProvider = ({ children }) => {
         }
 
         const txRes = await contract._receiveReedemAmt(_escrowId, {
-          gasLimit: 500000000,
+          gasLimit: 3000000,
         });
 
         setIsLoading(true);
@@ -618,7 +635,49 @@ export const CreateLendProvider = ({ children }) => {
         return true;
       }
     } catch (error) {
-      alert("Error while redeeming amount!");
+      // alert("Error while redeeming amount!");
+      console.log("Err Redeem Amt: ", error);
+    }
+  };
+
+  const getIdToLendingStates = async (_escrowId, page) => {
+    let items, results = [];
+    if (page == "overview") items = [...borrowerList, ...lenderList];
+    if (page == "lender") items = [lenderList];
+    if (page == "borrower") items = [borrowerList];
+
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          gainxContractAddress,
+          gainxAbi,
+          provider
+        );
+
+        if (ethereum.isConnected()) {
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(accounts[0]);
+        }
+
+        for (let i = 0; i < items.length; i++) {
+          const txRes = await contract.idToLendingStates(_escrowId);
+          results.push(txRes);
+        }
+
+
+        console.log("lending states💵💵💵💵: ", results);
+        return results;
+      }
+    } catch (error) {
+      // alert("Error while redeeming amount!");
+      console.log("Err lending states Amt: ", error);
     }
   };
 
@@ -649,7 +708,7 @@ export const CreateLendProvider = ({ children }) => {
 
         const txRes = await contract.safeMint(receiver, {
           value: mintingPrice,
-          gasLimit: 500000000,
+          gasLimit: 3000000,
         });
 
         await txRes.wait();
@@ -691,6 +750,9 @@ export const CreateLendProvider = ({ children }) => {
         setOfferId,
         estAmt,
         setEstAmt,
+        ended,
+        setEnded,
+        getIdToLendingStates,
       }}
     >
       {children}

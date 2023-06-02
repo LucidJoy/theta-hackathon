@@ -12,7 +12,7 @@ import Modal from "../../components/Modal";
 // import Borrow from "../../components/Borrow";
 import AssetBalances from "../WalletOverview/AssetBalances";
 
-const WalletMargin = () => {
+const WalletMargin = () => { // Lending
   const [visibleTransfer, setVisibleTransfer] = useState(false);
   const [visibleBorrow, setVisibleBorrow] = useState(false);
 

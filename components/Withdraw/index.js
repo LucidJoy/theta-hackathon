@@ -9,17 +9,31 @@ import Successfully from "./Successfully";
 import CreateLendContext from "../../context/LendContext";
 
 const Withdraw = ({ offer }) => {
-  const { buyInsurance } = useContext(CreateLendContext);
+  const { buyInsurance, reedemAmount, setEnded } = useContext(CreateLendContext);
 
   const [save, setSave] = useState(true);
   const [visibleWithdraw, setVisibleWithdraw] = useState(true);
   const [visibleSuccessfully, setVisibleSuccessfully] = useState(false);
 
   const handleClick = async () => {
-    const response = await buyInsurance();
-    console.log("Response to buy insurance: ", response);
+    let response;
+    if (offer) {
+      response = await reedemAmount();
+      console.log("Response to redeem amt: ", response);
+
+      if (response) setEnded(true);
+    } else {
+      response = await buyInsurance();
+      console.log("Response to buy insurance: ", response);
+    }
+
     setVisibleWithdraw(false);
-    setVisibleSuccessfully(true);
+
+    if (response) {
+      setVisibleSuccessfully(true);
+    } else {
+      alert("Error! Try Again!!");
+    }
   };
 
   // useEffect(() => offer === true && setOffer(false), []);
@@ -34,11 +48,11 @@ const Withdraw = ({ offer }) => {
           </div>
           <TextInput
             className={styles.field}
-            label='Offer Id'
-            name='address'
-            type='text'
-            placeholder='Enter offer ID'
-            note=''
+            label="Offer Id"
+            name="address"
+            type="text"
+            placeholder="Enter offer ID"
+            note=""
             required
           />
 
@@ -46,7 +60,7 @@ const Withdraw = ({ offer }) => {
             className={cn("button", styles.button)}
             onClick={() => handleClick()}
           >
-            Buy
+            {offer ? "Redeem" : "Buy"}
           </button>
         </div>
       )}

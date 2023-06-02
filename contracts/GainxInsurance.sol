@@ -12,6 +12,37 @@ contract GainxInsurance {
 
     Counters.Counter private _insuranceIdCounter;
 
+        struct Escrow {
+        uint256 escrowId;
+        uint256 startBlock;
+        uint256 endBlock;
+        address nftAddress; // imp
+        uint256 nftId;
+        address lender;
+        address borrower;
+        uint256 amount; // imp
+        uint256 tenure;  // imp
+        uint256 apy; // imp
+        bool isInsuared;  // imp
+        bool accepted;
+    }
+    Escrow[] public escrows;
+
+    struct LendingStates {
+        bool receivedNft;
+        bool receivedFunds;
+        bool receivedRepayAmt;
+        bool receivedReedemTokens;
+        bool completed;
+    }
+
+    mapping(uint256 => Escrow) public idToEscrow;
+    mapping(uint256 => LendingStates) public idToLendingStates;
+    mapping(address => uint256) public lenderToRepayAmt;
+
+    mapping(address => Escrow[]) public lendersList;
+    mapping(address => Escrow[]) public borrowersList;
+
     struct Insurance {
         uint256 insuranceId;
         uint256 lendingId;
@@ -27,6 +58,9 @@ contract GainxInsurance {
 
     function buyInsurance(address _buyer, uint256 _amount, uint256 _lendingId) payable public {
         uint256 _insuranceId = _insuranceIdCounter.current();
+
+        Escrow storage currEscrow = idToEscrow[_lendingId];
+        currEscrow.isInsuared = true;
 
         Insurance memory newInsurance = Insurance(_insuranceId, _lendingId, _buyer, _amount, false);
 

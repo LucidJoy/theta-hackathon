@@ -1,5 +1,5 @@
 // ARV
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import cn from "classnames";
 import { Link } from "react-router-dom";
 import styles from "./AssetBalances.module.sass";
@@ -19,12 +19,25 @@ import CreateLendContext from "../../../context/LendContext";
 // overview page items
 
 const AssetBalances = ({ overview, lender, borrower }) => {
-  const { listNftToMarketplace, borrowerList, lenderList } =
+  const { listNftToMarketplace, borrowerList, lenderList, ended, setEnded, getIdToLendingStates } =
     useContext(CreateLendContext);
 
-  const [ended, setEnded] = useState(true);
+    const [status, setStatus] = useState([]);
 
-  let items;
+  let items, statuses = [];
+
+  // const getStatus = async (items) => {
+  //   console.log("Get status was called.");
+  //   items.map(async (element, i) => {
+  //     const res = await getIdToLendingStates(element.escrowId);
+  //     statuses.push(res);
+  //   })
+  //   setStatus(statuses);
+  // }
+
+  // useEffect(() => {
+  //   console.log("Status from useEffect❤️❤️❤️❤️❤️❤️:", status);
+  // }, [])
 
   if (overview) {
     console.log("Overview dashboard");
@@ -38,7 +51,6 @@ const AssetBalances = ({ overview, lender, borrower }) => {
 
   if (borrower) {
     console.log("Borrower dashboard");
-    items = borrowerList;
   }
 
   return (
@@ -52,7 +64,7 @@ const AssetBalances = ({ overview, lender, borrower }) => {
           <div className={styles.col}>Insured</div>
           <div className={styles.col}>Status</div>
         </div>
-        {items.length !== 0 ? (
+        {items.length == 0 ? (
           <p
             style={{
               color: "#ffffff",
@@ -67,7 +79,7 @@ const AssetBalances = ({ overview, lender, borrower }) => {
             No records found
           </p>
         ) : (
-          //          items.map((x, index) => (
+          items.map((x, index) => (
           <div className={styles.row}>
             <div className={styles.col}>
               <div className={styles.currency}>
@@ -75,30 +87,30 @@ const AssetBalances = ({ overview, lender, borrower }) => {
                   <img src={x.icon} alt="Currency" />
                 </div> */}
                 <div className={styles.details}>
-                  {/* <div className={styles.info}>{`# ${x.escrowId}`}</div> */}
-                  <div className={styles.info}>001</div>
+                  <div className={styles.info}>{`# ${x.escrowId}`}</div>
+                  {/* <div className={styles.info}>001</div> */}
                 </div>
               </div>
             </div>
             <div className={styles.col}>
-              {/* {x.apy && (
+              {x.apy && (
                   <div className={cn("category-green", styles.category)}>
                     {`${x.apy} % APY`}
                   </div>
-                )} */}
-              <div className={cn("category-green", styles.category)}>15</div>
+                )}
+              {/* <div className={cn("category-green", styles.category)}>15</div> */}
             </div>
             <div className={styles.col}>
-              {/* <div className={styles.info}>{`${x.amount} TFUEL`}</div> */}
-              <div className={styles.info}>2 TFUEL</div>
+              <div className={styles.info}>{`${x.amount} TFUEL`}</div>
+              {/* <div className={styles.info}>2 TFUEL</div> */}
             </div>
             <div className={styles.col}>
-              {/* <div className={styles.info}>{`${x.tenure} days`}</div> */}
-              <div className={styles.info}>{`7 days`}</div>
+              <div className={styles.info}>{`${x.tenure} months`}</div>
+              {/* <div className={styles.info}>{`7 days`}</div> */}
             </div>
             <div className={styles.col}>
-              {/* <div className={styles.info}>{`${x.isInsuared}`}</div> */}
-              <div className={styles.info}>True</div>
+              <div className={styles.info}>{`${x.isInsuared ? 'True' : 'Not Insured'}`}</div>
+              {/* <div className={styles.info}>True</div> */}
             </div>
             <div className={styles.col}>
               <div
@@ -110,7 +122,7 @@ const AssetBalances = ({ overview, lender, borrower }) => {
               </div>
             </div>
           </div>
-          //          ))
+                    ))
         )}
       </div>
     </div>
