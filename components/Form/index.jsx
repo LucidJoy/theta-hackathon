@@ -3,6 +3,7 @@ import styles from "./Form.module.sass";
 import cn from "classnames";
 
 import CreateLendContext from "../../context/LendContext";
+import Link from "next/link";
 
 const Form = ({ profile }) => {
   const {
@@ -135,13 +136,19 @@ const Form = ({ profile }) => {
 
         <div className={styles.input}>
           <p className={styles.label}>Sentiment Analysis Score:</p>
-          {sentiment < 0 ? (
-            <p style={{ fontSize: "16px" }}>Bearish ({sentiment})</p>
-          ) : sentiment == 0 ? (
-            <p style={{ fontSize: "16px" }}>0</p>
-          ) : (
-            <p style={{ fontSize: "16px" }}>Bullish ({sentiment})</p>
-          )}
+          <Link
+            href='https://blockchainreporter.net/theta-network-declares-earworm-media-of-rob-feldman-as-its-collaborator-validator-node/'
+            rel='noreferrer'
+            target='_blank'
+          >
+            {sentiment < 0 ? (
+              <p style={{ fontSize: "16px" }}>Bearish ({sentiment})</p>
+            ) : sentiment == 0 ? (
+              <p style={{ fontSize: "16px" }}>0</p>
+            ) : (
+              <p style={{ fontSize: "16px" }}>Bullish ({sentiment})</p>
+            )}
+          </Link>
         </div>
 
         <div className={styles.input}>
