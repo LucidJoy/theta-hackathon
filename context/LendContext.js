@@ -66,7 +66,7 @@ export const CreateLendProvider = ({ children }) => {
 
   const [offerId, setOfferId] = useState("");
   let [estAmt, setEstAmt] = useState("");
-  const [sentiment, setSentiment] = useState(-0.2);
+  const [sentiment, setSentiment] = useState(0.72);
 
   const demoItem = {
     escrowId: "0",
@@ -89,7 +89,7 @@ export const CreateLendProvider = ({ children }) => {
     })();
   }, []);
 
-  let offers = ["55.6064", "50.2044", "40.7826", "21.9151"];
+  let offers = ["2060.20", "2065.69", "2072.66", "2079.51"];
   useEffect(() => {
     if (Number(myNftForm.tenure) == 1) {
       console.log("Offer 0");
