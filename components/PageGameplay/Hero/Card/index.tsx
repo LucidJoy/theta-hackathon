@@ -16,17 +16,22 @@ type CardProps = {
 };
 
 const Card = ({ className, item }: CardProps) => (
-  <Link href={item.url}>
+  <>
     <div className={cn(styles.card, className)}>
-      <div className={styles.preview}>
-        <Image src={item.image} layout='fill' alt='Card' />
+      <div className={styles.preview} style={{}}>
+        <img
+          src={item.image}
+          // layout='fill'
+          alt='Card'
+          style={{ borderRadius: "10px", height: "300px", width: "100%" }}
+        />
       </div>
       <div className={styles.body}>
         <div className={cn("label-purple", styles.label)}>{item.label}</div>
         <div className={cn("title", styles.title)}>{item.title}</div>
       </div>
     </div>
-  </Link>
+  </>
 );
 
 export default Card;

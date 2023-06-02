@@ -3,13 +3,11 @@ import { ethers, utils } from "ethers";
 import Web3Modal from "web3modal";
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
-import { Database } from "@tableland/sdk";
 import axios from "axios";
-
 
 import gainx from "./Gainx.json";
 import gainxToken from "./GainxToken.json";
-import redeemToken from "./RedeemToken.json";
+import tnt20Token from "./TNT20Token.json";
 
 import { useRouter } from "next/router";
 
@@ -17,13 +15,14 @@ const CreateLendContext = createContext({});
 
 // const gainxContractAddress = "0x513028401543099405cb47bC00788a05d99E91F2";
 // const gainxContractAddress = "0x9c88f79eA319B9770125E689F9aeDCE1C0992224"; // 0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84 (new)
-const gainxContractAddress = "0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84"; // 0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84 (new)
-const gainxTokenContractAddress = "0xd4e6eC0202F1960dA896De13089FF0e4A07Db4E9";
-const redeemTokenContractAddress = "0xEC6C1001a15c48D4Ea2C7CD7C45a1c5b6aD120E9";
+// const gainxContractAddress = "0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84"; // 0x7619EcEc5bf84Da954a9A5d52caa4B8dB6313c84 (new)
+const gainxContractAddress = "0x6CFD7ebe4dA3C3eF58f3796214580eD7fAa9f242"; // Theta
+// const gainxTokenContractAddress = "0xd4e6eC0202F1960dA896De13089FF0e4A07Db4E9";
+const tnt20ContractAddress = "0xEC6C1001a15c48D4Ea2C7CD7C45a1c5b6aD120E9";
 
 const gainxAbi = gainx.abi;
 const gainxTokenAbi = gainxToken.abi;
-const redeemTokenAbi = redeemToken.abi;
+const tnt20TokenAbi = tnt20Token.abi;
 let collectionAddress = "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d";
 let months = 3;
 
@@ -63,51 +62,6 @@ export const CreateLendProvider = ({ children }) => {
     nftAddress: "",
     nftId: "",
   });
-  const [database, setDatabase] = useState();
-  const [tablename, setTablename] = useState();
-  const [tabledata, setTabledata] = useState({
-    key: "",
-    value: "",
-  });
-
-  async function maketable() {
-    const prefix = "demo_table";
-    const { meta: create } = await database
-      .prepare(`CREATE TABLE ${prefix}(id text, data text);`)
-      .run();
-    const { name } = create.txn;
-    setTablename(name);
-    console.log("table", name);
-  }
-
-  async function writetable() {
-    const { meta: insert } = await database
-      .prepare(`INSERT INTO ${tablename} (id, data) VALUES (?, ?);`)
-      .bind(parseInt(tabledata?.key), tabledata?.value.toString())
-      .run();
-
-    await insert.txn.wait();
-
-    const { results } = await database
-      .prepare(`SELECT * FROM ${tablename};`)
-      .all();
-    console.log(results);
-  }
-
-  async function connectDatabase(signer) {
-    const db = new Database({ signer });
-    return db;
-  }
-
-  async function handleConnect() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    setSigner(signer);
-    const database = await connectDatabase(signer);
-    setDatabase(database);
-    console.log(database);
-  }
 
   const [offerId, setOfferId] = useState("");
   let [estAmt, setEstAmt] = useState("");
@@ -420,21 +374,6 @@ export const CreateLendProvider = ({ children }) => {
     */
     let _borrower;
 
-    setTabledata({
-      key: nftId,
-      value: {
-        nftAddress,
-        nftId,
-        chain,
-        estimatedAmount,
-        tenure,
-        apy,
-      },
-    });
-    handleConnect();
-    maketable();
-    writetable();
-
     try {
       if (window.ethereum) {
         const web3Modal = new Web3Modal();
@@ -496,7 +435,7 @@ export const CreateLendProvider = ({ children }) => {
     //   tenure: "4",
     //   isInsured: false,
     // };
-    
+
     let txAmount, _borrower;
     let _isInsuared = false;
     try {
@@ -530,7 +469,6 @@ export const CreateLendProvider = ({ children }) => {
         let txAmt = txAmount.toString(); // 1.1 --> '1.1'
         txAmount = txAmount.toString(); // 1.1 --> '1.1'
         txAmount = utils.parseEther(txAmount); // '1.1' --> '1.1 * 10^18'
-
 
         const txRes = await contract._acceptOffer(escrowId, _isInsuared, {
           value: txAmt, // '1.1 * 10^18'

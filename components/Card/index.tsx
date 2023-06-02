@@ -117,7 +117,7 @@ const Card = ({ className, item, bigPreview, saleItem, offer }: CardProps) => {
       <div className={cn("details_bottom", styles.details_bottom)}>
         <div className={styles.stat}>
           <div className={cn("label-purple", styles.code)}>#{item.code}</div>
-          <div className={styles.crypto}>{offer.amount} TFil</div>
+          <div className={styles.crypto}>{offer.amount} TFUEL</div>
         </div>
         <div className={styles.info}>
           <div className={cn("title", styles.title)}>{item.title}</div>

@@ -42,11 +42,13 @@ const Hero = ({}: HeroProps) => {
             <p className={cn("button", styles.button)}>Marketplace</p>
           </Link>
         </div>
+
         <div ref={cardsRef} className={styles.cards}>
           {cards.map((card, index) => (
             <Card className={styles.card} item={card} key={index} />
           ))}
         </div>
+
         <div className={styles.foot}>
           {/* <Mouse className={styles.mouse} title='Explore the game' /> */}
           <Range

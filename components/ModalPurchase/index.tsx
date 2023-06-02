@@ -18,7 +18,7 @@ const item = {
   crypto: "40.7826",
   price: 183.5217,
   location: "Bored Ape Yacht Club",
-  tenure: "4"
+  tenure: "4",
 };
 
 const exchange = 2646.4;
@@ -49,7 +49,7 @@ const Confirm = ({ setStateModal }: ModalType) => {
         </div>
         <div>
           <div className={cn("h6", styles.crypto)}>
-            {activeObject.amount} TFil
+            {activeObject.amount} TFUEL
           </div>
           <div className={styles.price}>APY: {activeObject.apy}%</div>
         </div>
@@ -69,7 +69,7 @@ const Confirm = ({ setStateModal }: ModalType) => {
       <div className={styles.note}>
         You are buying{" "}
         <span style={{ color: "#fff" }}>{activeObject.title}</span> for{" "}
-        <span style={{ color: "#fff" }}>{activeObject.amount} TFil.</span>
+        <span style={{ color: "#fff" }}>{activeObject.amount} TFUEL.</span>
       </div>
     </>
   );
@@ -86,9 +86,9 @@ const Waiting = ({}) => {
       />
       <h5 className={cn("h5", styles.subtitle)}>Waiting for confirmation</h5>
       <div className={styles.text}>
-        You are lending{" "}
-        <span className={styles.red}>{activeObject.title}</span> tokens worth of {" "}
-        <span className={styles.dark}>{activeObject.amount} TFil</span>
+        You are lending <span className={styles.red}>{activeObject.title}</span>{" "}
+        tokens worth of{" "}
+        <span className={styles.dark}>{activeObject.amount} TFUEL</span>
       </div>
     </div>
   );
@@ -114,14 +114,14 @@ const Joy = ({ setStateModal }: ModalType) => {
   const [value, setValue] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
   const { activeObject, acceptOffer } = useContext(CreateLendContext);
-  
-const handleAcceptOffer = async () => {
-  const response = await acceptOffer(activeObject);
-  console.log('Accept offer res💵: ', response);
-  
-  if (response) setStateModal("complete")
-  else setStateModal("error") 
-}
+
+  const handleAcceptOffer = async () => {
+    const response = await acceptOffer(activeObject);
+    console.log("Accept offer res💵: ", response);
+
+    if (response) setStateModal("complete");
+    else setStateModal("error");
+  };
 
   return (
     <div>

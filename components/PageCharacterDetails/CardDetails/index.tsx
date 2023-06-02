@@ -81,18 +81,20 @@ const CardDetails = ({}: CardDetailsProps) => {
     <div className={cn("section-main", styles.section)}>
       <div className={cn("container-xl", styles.container)}>
         <div className={styles.row}>
-          <Preview
-            className={styles.preview}
-            image={activeObject.image}
-            background='#E5DCF3'
-            url='/marketplace'
-          />
+          <div className={styles.glass}>
+            <Preview
+              className={styles.preview}
+              image={activeObject.image}
+              background='transparent'
+              url='/marketplace'
+            />
+          </div>
           <div className={styles.wrap}>
             <Description
               className={styles.description}
               title={activeObject.title}
               code={id}
-              crypto={`${activeObject.amount} TFil`}
+              crypto={`${activeObject.amount} TFUEL`}
               price={`${activeObject.tenure} Months`}
             />
             <div className={styles.control}>

@@ -1,5 +1,8 @@
 @import ../../../styles/helpers
 
+$glassColor: rgba(255, 255, 255, 0.15)
+$blurRadius: 10px
+
 .section
     +d
         padding-top: 100px
@@ -17,10 +20,22 @@
     +t
         display: block
 
+.glass
+    // background: linear-gradient(to bottom right, $glassColor, rgba(0, 0, 0, 0.5))
+    // backdrop-filter: blur($blurRadius)
+    border-radius: 50px
+    background: linear-gradient(225deg, #1d1f26, #1d1f26)
+    box-shadow:  -15px 15px 22px #25262bce, 15px -15px 22px #3c3d453b
+    width: 100%
+    max-width: 700px
+    min-width: 440px
+    border-radius: 20px
+
 .preview
     width: 100%
     max-width: 700px
     min-width: 440px
+    border-radius: 10px
     +t
         max-width: 100%
         min-width: auto

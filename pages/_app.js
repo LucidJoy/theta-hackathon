@@ -1,4 +1,3 @@
-
 import "../styles/app.sass";
 
 import { CreateLendProvider } from "../context/LendContext";
@@ -7,7 +6,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { WagmiConfig, createConfig, configureChains } from "wagmi";
 
 // import { filecoinHyperspace, mainnet } from "@wagmi/core/chains";
-import { filecoinHyperspace } from "wagmi/chains";
+import { filecoinHyperspace, Chain } from "wagmi/chains";
 import { alchemyProvider } from "@wagmi/core/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
@@ -34,20 +33,49 @@ import {
 //   chains: [filecoinHyperspace],
 // });
 
+const theta = {
+  id: 365,
+  name: "Theta",
+  network: "theta",
+  iconUrl: "https://example.com/icon.svg",
+  iconBackground: "#fff",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Theta",
+    symbol: "TFUEL",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://eth-rpc-api-testnet.thetatoken.org/rpc"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Theta MetaChain",
+      url: "https://explorer.thetatoken.org/",
+    },
+    etherscan: {
+      name: "Theta MetaChain",
+      url: "https://explorer.thetatoken.org/",
+    },
+  },
+  testnet: false,
+};
+
 const { chains, provider, publicClient, webSocketPublicClient } =
   configureChains(
-    [filecoinHyperspace],
+    [theta],
     [
       jsonRpcProvider({
         rpc: (chain) => ({
-          http: `https://rpc.ankr.com/filecoin_testnet`,
+          http: `https://eth-rpc-api-testnet.thetatoken.org/rpc`,
         }),
       }),
     ]
   );
 
 const config = createConfig({
-  autoConnect: true,
+  autoConnect: false,
   connectors: [new MetaMaskConnector({ chains })],
   publicClient,
   webSocketPublicClient,

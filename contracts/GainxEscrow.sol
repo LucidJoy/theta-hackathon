@@ -13,7 +13,7 @@ import "contracts/GainxPool.sol";
 // after offer accepted, lender sends the money to escrow
 // if escrow has both nft and funds, send fund to borrower
 // generate APY for lender
-// if borrower sends funds in time, 
+// if borrower sends funds in time,
 // send NFT to borrower
 // the funds remain in the pool untill the lender gives the reedem tokens
 
@@ -66,34 +66,65 @@ contract GainxEscrow is GainxInsurance, GainxFuture, GainxPool {
     mapping(address => Escrow[]) public lendersList;
     mapping(address => Escrow[]) public borrowersList;
 
-    function _initEscrow(address _borrower, uint256 _amount, address _nftAddress, uint256 _nftId, uint256 _tenure, uint256 _apy) payable public {  // working
+    function _initEscrow(
+        address _borrower,
+        uint256 _amount,
+        address _nftAddress,
+        uint256 _nftId,
+        uint256 _tenure,
+        uint256 _apy
+    ) public payable {
+        // working
         uint256 _escrowId = _escrowIdCounter.current();
 
         uint256 _startBlock = block.number;
         uint256 _endBlock = _startBlock + (_tenure * 2880);
-        
+
         _lockFutureApy(_escrowId, _apy); // Future for APY
-        
-        Escrow memory newEscrow = Escrow(_escrowId, _startBlock, _endBlock, _nftAddress, _nftId, address(0), _borrower, _amount, _tenure, _apy, false, false);
+
+        Escrow memory newEscrow = Escrow(
+            _escrowId,
+            _startBlock,
+            _endBlock,
+            _nftAddress,
+            _nftId,
+            address(0),
+            _borrower,
+            _amount,
+            _tenure,
+            _apy,
+            false,
+            false
+        );
         escrows.push(newEscrow);
         idToEscrow[_escrowId] = newEscrow;
 
         borrowersList[_borrower].push(newEscrow);
 
-        LendingStates memory newLendingState = LendingStates(true, false, false, false, false);
+        LendingStates memory newLendingState = LendingStates(
+            true,
+            false,
+            false,
+            false,
+            false
+        );
 
         idToLendingStates[_escrowId] = newLendingState;
 
         _escrowIdCounter.increment();
     }
 
-    function _withdrawNft(uint256 _escrowId) payable public {
-        require(idToLendingStates[_escrowId].receivedFunds == false, "Cannot withdraw NFT now!!");
+    function _withdrawNft(uint256 _escrowId) public payable {
+        require(
+            idToLendingStates[_escrowId].receivedFunds == false,
+            "Cannot withdraw NFT now!!"
+        );
 
         // send the NFT back to borrower
     }
 
-    function _acceptOffer(uint256 _escrowId, bool _isInsuared) payable public { // working
+    function _acceptOffer(uint256 _escrowId, bool _isInsuared) public payable {
+        // working
         Escrow storage currEscrow = idToEscrow[_escrowId];
 
         if (_isInsuared) {
@@ -105,31 +136,36 @@ contract GainxEscrow is GainxInsurance, GainxFuture, GainxPool {
         currEscrow.accepted = true;
         currEscrow.lender = msg.sender;
 
-        uint256 _repayAmt = currEscrow.amount + ((currEscrow.apy * currEscrow.amount) / 100);  // amount --> 10^18 format 
+        uint256 _repayAmt = currEscrow.amount +
+            ((currEscrow.apy * currEscrow.amount) / 100); // amount --> 10^18 format
         lenderToRepayAmt[msg.sender] = _repayAmt;
         lendersList[msg.sender].push(currEscrow);
 
-        (bool sent,) = currEscrow.borrower.call{value: currEscrow.amount}("");
+        (bool sent, ) = currEscrow.borrower.call{value: currEscrow.amount}("");
         require(sent, "Failed to send Ether");
     }
 
-    function _receiveRepayAmt(uint256 _escrowId) payable public {
+    function _receiveRepayAmt(uint256 _escrowId) public payable {
         idToLendingStates[_escrowId].receivedRepayAmt = true;
         idToLendingStates[_escrowId].completed = true;
 
         // send the NFT back to borrower
     }
 
-    function _receiveReedemAmt(uint256 _escrowId) payable public {  // working
+    function _receiveReedemAmt(uint256 _escrowId) public payable {
+        // working
         idToLendingStates[_escrowId].receivedReedemTokens = true;
 
-        (bool sent, ) = idToEscrow[_escrowId].lender.call{value: lenderToRepayAmt[idToEscrow[_escrowId].lender]}("");
-        require(sent, "Failed to send TFil tokens");
+        (bool sent, ) = idToEscrow[_escrowId].lender.call{
+            value: lenderToRepayAmt[idToEscrow[_escrowId].lender]
+        }("");
+        require(sent, "Failed to send TFUEL tokens");
 
-        // send the TFil to the lender
+        // send the TFUEL to the lender
     }
 
-    function getExploreListings() public view returns(Escrow[] memory) {  // working
+    function getExploreListings() public view returns (Escrow[] memory) {
+        // working
         uint totalItemCount = escrows.length;
         uint itemCount = 0;
         uint currentIndex = 0;
@@ -137,7 +173,7 @@ contract GainxEscrow is GainxInsurance, GainxFuture, GainxPool {
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToEscrow[i].accepted == false) {
                 itemCount += 1;
-            }    
+            }
         }
 
         Escrow[] memory items = new Escrow[](itemCount);
@@ -157,11 +193,17 @@ contract GainxEscrow is GainxInsurance, GainxFuture, GainxPool {
         return items;
     }
 
-    function getLendersList(address _lender) public view returns(Escrow[] memory){  // working
+    function getLendersList(
+        address _lender
+    ) public view returns (Escrow[] memory) {
+        // working
         return lendersList[_lender];
     }
 
-    function getBorrowersList(address _borrower) public view returns(Escrow[] memory){  // working
+    function getBorrowersList(
+        address _borrower
+    ) public view returns (Escrow[] memory) {
+        // working
         return borrowersList[_borrower];
     }
 }

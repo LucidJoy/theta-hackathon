@@ -89,8 +89,8 @@ const AssetBalances = ({ overview, lender, borrower }) => {
               <div className={cn("category-green", styles.category)}>15</div>
             </div>
             <div className={styles.col}>
-              {/* <div className={styles.info}>{`${x.amount} TFil`}</div> */}
-              <div className={styles.info}>2 TFil</div>
+              {/* <div className={styles.info}>{`${x.amount} TFUEL`}</div> */}
+              <div className={styles.info}>2 TFUEL</div>
             </div>
             <div className={styles.col}>
               {/* <div className={styles.info}>{`${x.tenure} days`}</div> */}

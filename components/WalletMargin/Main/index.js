@@ -9,7 +9,7 @@ const Main = () => {
       <h4 className={cn("h4", styles.title)}>Lendings</h4>
       <div className={styles.list}>
         <div className={styles.item}>
-          <div className={styles.info}>Total lended (in TFil)</div>
+          <div className={styles.info}>Total lended (in TFUEL)</div>
           <div className={styles.currency}>
             <div className={styles.number}>109.2789</div>
             <div className={cn("category-green", styles.category)}>15%</div>

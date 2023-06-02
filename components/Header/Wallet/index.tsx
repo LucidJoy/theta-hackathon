@@ -61,6 +61,7 @@ const Notification = ({ className, wide }: NotificationProps) => {
             {!address ? "Connect Wallet" : formatWalletAddress(address, 5, 5)}
           </div>
         </button>
+
         <div
           className={cn(styles.body, {
             [styles.wide]: wide,

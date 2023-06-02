@@ -3,6 +3,21 @@
         {
             "inputs": [
                 {
+                    "internalType": "address",
+                    "name": "_tnt20TokenAddr",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "stateMutability": "payable",
+            "type": "fallback"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "uint256",
                     "name": "_escrowId",
                     "type": "uint256"
@@ -117,75 +132,6 @@
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_buyer",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_amount",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_lendingId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "buyInsurance",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_id",
-                    "type": "uint256"
-                }
-            ],
-            "name": "claimInsurance",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "receiveFunds",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_receiver",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_amount",
-                    "type": "uint256"
-                }
-            ],
-            "name": "sendFunds",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "stateMutability": "payable",
-            "type": "fallback"
-        },
-        {
-            "stateMutability": "payable",
-            "type": "receive"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
                     "name": "",
                     "type": "address"
                 },
@@ -264,6 +210,61 @@
         {
             "inputs": [
                 {
+                    "internalType": "address",
+                    "name": "_buyer",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_amount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_lendingId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "buyInsurance",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "_id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "claimInsurance",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "escrowToApy",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
@@ -330,25 +331,6 @@
                     "internalType": "bool",
                     "name": "accepted",
                     "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "escrowToApy",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -473,7 +455,7 @@
                             "type": "bool"
                         }
                     ],
-                    "internalType": "struct GainxEscrow.Escrow[]",
+                    "internalType": "struct GainxInsurance.Escrow[]",
                     "name": "",
                     "type": "tuple[]"
                 }
@@ -548,7 +530,7 @@
                             "type": "bool"
                         }
                     ],
-                    "internalType": "struct GainxEscrow.Escrow[]",
+                    "internalType": "struct GainxInsurance.Escrow[]",
                     "name": "",
                     "type": "tuple[]"
                 }
@@ -721,7 +703,7 @@
                             "type": "bool"
                         }
                     ],
-                    "internalType": "struct GainxEscrow.Escrow[]",
+                    "internalType": "struct GainxInsurance.Escrow[]",
                     "name": "",
                     "type": "tuple[]"
                 }
@@ -902,6 +884,45 @@
                     "type": "uint256"
                 }
             ],
+            "name": "insuranceToDeal",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "insuranceId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "lendingId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "buyer",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "claimed",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
             "name": "insurances",
             "outputs": [
                 {
@@ -980,37 +1001,17 @@
         {
             "inputs": [
                 {
-                    "internalType": "uint256",
+                    "internalType": "address",
                     "name": "",
-                    "type": "uint256"
+                    "type": "address"
                 }
             ],
-            "name": "insuranceToDeal",
+            "name": "lenderToRepayAmt",
             "outputs": [
                 {
                     "internalType": "uint256",
-                    "name": "insuranceId",
+                    "name": "",
                     "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "lendingId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "buyer",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "claimed",
-                    "type": "bool"
                 }
             ],
             "stateMutability": "view",
@@ -1096,14 +1097,8 @@
             "type": "function"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "lenderToRepayAmt",
+            "inputs": [],
+            "name": "poolBalance",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -1116,16 +1111,32 @@
         },
         {
             "inputs": [],
-            "name": "poolBalance",
-            "outputs": [
+            "name": "receiveFunds",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_receiver",
+                    "type": "address"
+                },
                 {
                     "internalType": "uint256",
-                    "name": "",
+                    "name": "_amount",
                     "type": "uint256"
                 }
             ],
-            "stateMutability": "view",
+            "name": "sendFunds",
+            "outputs": [],
+            "stateMutability": "payable",
             "type": "function"
+        },
+        {
+            "stateMutability": "payable",
+            "type": "receive"
         }
     ]
 }

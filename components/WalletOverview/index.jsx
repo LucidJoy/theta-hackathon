@@ -65,7 +65,7 @@ const WalletOverview = () => {
                 height: "40px",
                 borderRadius: "20px",
                 fontWeight: 700,
-                paddingTop: "7px"
+                paddingTop: "7px",
               }}
             >
               Score: 1124
@@ -73,7 +73,7 @@ const WalletOverview = () => {
           </div>
         </div>
         <div className={styles.details}>
-          <div className={styles.info}>Total Earnings (in TFil)</div>
+          <div className={styles.info}>Total Earnings (in TFUEL)</div>
           <div className={styles.currency}>
             <div className={styles.number}>109.2789</div>
             <div className={cn("category-green", styles.category)}>15%</div>
@@ -89,7 +89,7 @@ const WalletOverview = () => {
         <div className={styles.item}>
           <div className={styles.head}>Positions</div>
           <div className={styles.body}>
-            <AssetBalances overview={true} borrower={false} lender={false}/>
+            <AssetBalances overview={true} borrower={false} lender={false} />
           </div>
         </div>
         <div className={styles.item}>
