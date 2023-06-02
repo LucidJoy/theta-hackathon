@@ -110,7 +110,7 @@ export const CreateLendProvider = ({ children }) => {
   const getNftEstPricesApi = async () => {
     const res = await axios({
       method: "get",
-      url: `https://nft-api-ou54.onrender.com/predictions/contract_address=${myNftForm.nftAddress}&no_of_months=${myNftForm.tenure}`,
+      url: `https://theta-rnn.onrender.com/predictions/contract_address=${myNftForm.nftAddress}&no_of_months=${myNftForm.tenure}`,
       withCredentials: false,
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -123,7 +123,7 @@ export const CreateLendProvider = ({ children }) => {
   const trainModelApi = async () => {
     const res = await axios({
       method: "get",
-      url: `https://nft-api-ou54.onrender.com/train_model/contract_address=${myNftForm.nftAddress}`,
+      url: `https://theta-rnn.onrender.com/train_model/contract_address=${myNftForm.nftAddress}`,
       withCredentials: false,
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -131,6 +131,19 @@ export const CreateLendProvider = ({ children }) => {
       },
     });
     console.log("Train Model: ", res);
+  };
+
+  const sentimentEndpoint = async () => {
+    const res = await axios({
+      method: "get",
+      url: `https://theta-rnn.onrender.com/sentiment-analysis/keyword=${myNftForm.nftAddress}`,
+      withCredentials: false,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Response: ", res);
   };
 
   // useEffect(() => {
