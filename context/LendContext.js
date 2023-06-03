@@ -65,7 +65,7 @@ export const CreateLendProvider = ({ children }) => {
   });
 
   const [offerId, setOfferId] = useState("");
-  let [estAmt, setEstAmt] = useState("");
+  const [estAmt, setEstAmt] = useState("");
   const [sentiment, setSentiment] = useState(0.72);
 
   const demoItem = {
@@ -89,7 +89,7 @@ export const CreateLendProvider = ({ children }) => {
     })();
   }, []);
 
-  let offers = ["2060.20", "2065.69", "2072.66", "2079.51"];
+  let offers = ['2060.20', '2065.69', '2072.66', '2079.51'];
   useEffect(() => {
     if (Number(myNftForm.tenure) == 1) {
       console.log("Offer 0");
@@ -185,7 +185,7 @@ export const CreateLendProvider = ({ children }) => {
           nftId: Number(escrow.nftId._hex),
           lender: escrow.lender,
           borrower: escrow.borrower,
-          amount: Number(escrow.amount._hex).toString(),
+          amount: utils.formatEther(BigInt((escrow.amount._hex)).toString()),
           tenure: Number(escrow.tenure._hex),
           apy: Number(escrow.apy._hex),
           isInsuared: escrow.isInsuared,
@@ -300,7 +300,7 @@ export const CreateLendProvider = ({ children }) => {
           nftId: Number(offer.nftId._hex),
           lender: offer.lender,
           borrower: offer.borrower,
-          amount: Number(offer.amount._hex).toString(),
+          amount: utils.formatEther(BigInt((offer.amount._hex)).toString()),
           tenure: Number(offer.tenure._hex),
           apy: Number(offer.apy._hex),
           isInsuared: offer.isInsuared,
@@ -358,7 +358,7 @@ export const CreateLendProvider = ({ children }) => {
           nftId: Number(offer.nftId._hex),
           lender: offer.lender,
           borrower: offer.borrower,
-          amount: Number(offer.amount._hex).toString(),
+          amount: utils.formatEther(BigInt((offer.amount._hex)).toString()),
           tenure: Number(offer.tenure._hex),
           apy: Number(offer.apy._hex),
           isInsuared: offer.isInsuared,
@@ -402,7 +402,7 @@ export const CreateLendProvider = ({ children }) => {
     apy: "",
     */
     let _borrower;
-
+    let _estAmt;
     try {
       if (window.ethereum) {
         const web3Modal = new Web3Modal();
@@ -424,12 +424,16 @@ export const CreateLendProvider = ({ children }) => {
           _borrower = accounts[0];
         }
 
-        estAmt = utils.parseEther(estAmt); // string
+        _estAmt = estAmt
+
+        console.log("Est amt before parse🎉🎉🎉🎉🎉:", _estAmt);
+        _estAmt = utils.parseEther(_estAmt); // string
+        console.log("Est amt🎉🎉🎉🎉🎉:", _estAmt);
         let listingPrice = utils.parseEther("0.5");
 
         const txRes = await contract._initEscrow(
           _borrower,
-          estAmt,
+          _estAmt,
           nftAddress,
           nftId,
           tenure,
@@ -489,7 +493,7 @@ export const CreateLendProvider = ({ children }) => {
         }
 
         const res = await contract.idToEscrow(escrowId); // object --> amount: {_hex: '0x01'}
-        txAmount = Number(res.amount._hex); // txAmount = 1 (Number)
+        txAmount = BigInt(res.amount._hex); // txAmount = 1 (Number)
 
         if (_isInsuared == true || _isInsuared === "true") {
           txAmount += 0.1 * txAmount; // premium amount, 1 + (0.1*1) = 1.1 (Number)
@@ -545,7 +549,7 @@ export const CreateLendProvider = ({ children }) => {
 
         // const res = await contract.idToEscrow(_escrowId); // object --> amount: {_hex: '0x01'}
         const res = await contract.idToEscrow(offerId); // object --> amount: {_hex: '0x01'}
-        txAmount = Number(res.amount._hex); // txAmount = 1 (Number)
+        txAmount = BigInt(res.amount._hex); // txAmount = 1 (Number)
 
         txAmount = 0.1 * txAmount; // premium amount, (0.1*1) = 0.1 (Number)
 
@@ -553,7 +557,7 @@ export const CreateLendProvider = ({ children }) => {
         txAmount = txAmount.toString(); // 0.1 --> '0.1'
         txAmount = utils.parseEther(txAmount); // '0.1' --> '0.1 * 10^18'
 
-        console.log("Formatted amount: ", Number(utils.formatEther(txAmount)));
+        console.log("Formatted amount: ", BigInt(utils.formatEther(txAmount)));
 
         const txRes = await contract.buyInsurance(lender, txAmount, offerId, {
           value: amt, // '0.1'
@@ -603,9 +607,9 @@ export const CreateLendProvider = ({ children }) => {
         console.log("Lender: ", lenderAddr);
 
         const res = await contract.lenderToRepayAmt(lenderAddr);
-        let amt = Number(res._hex).toString();
+        let amt = BigInt(res._hex).toString();
         // amt = utils.parseEther(amt);
-        console.log("Lender address amt: ", Number(res._hex))
+        console.log("Lender address amt: ", BigInt(res._hex))
 
         const txRes = await contract._receiveRepayAmt(_escrowId, {
           gasLimit: 3000000,
